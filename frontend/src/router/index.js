@@ -3,12 +3,14 @@ import Home from '../views/HomeView.vue';
 import State from '../views/StateManagementView.vue';
 import Action from '../views/UserActionView.vue';
 import UI from '../views/UiControl.vue';
+import LifeCycle from '../views/LifeCycle.vue';
 
 const routes = [
   { path: '/', component: Home },
   { path: '/state', component: State },
   { path: '/action', component: Action },
   { path: '/ui', component: UI },
+  { path: '/lifecycle', component: LifeCycle },
 ];
 
 const router = createRouter({
