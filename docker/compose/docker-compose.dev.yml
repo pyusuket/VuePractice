@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ../../
+      dockerfile: docker/backend/dev.Dockerfile
+    volumes:
+      - ../../backend:/app
+    env_file:
+    - ../env/backend.env.dev
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+    depends_on:
+      - db
+    command: python manage.py runserver 0.0.0.0:8000
+
+  frontend:
+    build:
+      context: ../../
+      dockerfile: docker/frontend/dev.Dockerfile
+    volumes:
+      - ../../frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - VUE_APP_API_URL=http://backend:8000/api
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    env_file:
+      - ../env/db.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
